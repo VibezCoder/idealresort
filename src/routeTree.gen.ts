@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as EventsOffersRouteImport } from './routes/events-offers'
+import { Route as MahabalipuramRouteImport } from './routes/mahabalipuram'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutUsRoute = AboutUsRouteImport.update({
+  id: '/about-us',
+  path: '/about-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsOffersRoute = EventsOffersRouteImport.update({
+  id: '/events-offers',
+  path: '/events-offers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MahabalipuramRoute = MahabalipuramRouteImport.update({
+  id: '/mahabalipuram',
+  path: '/mahabalipuram',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/events-offers': typeof EventsOffersRoute
+  '/mahabalipuram': typeof MahabalipuramRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/events-offers': typeof EventsOffersRoute
+  '/mahabalipuram': typeof MahabalipuramRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/events-offers': typeof EventsOffersRoute
+  '/mahabalipuram': typeof MahabalipuramRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/about-us' | '/events-offers' | '/mahabalipuram'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/about-us' | '/events-offers' | '/mahabalipuram'
+  id: '__root__' | '/' | '/about-us' | '/events-offers' | '/mahabalipuram'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutUsRoute: typeof AboutUsRoute
+  EventsOffersRoute: typeof EventsOffersRoute
+  MahabalipuramRoute: typeof MahabalipuramRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about-us': {
+      id: '/about-us'
+      path: '/about-us'
+      fullPath: '/about-us'
+      preLoaderRoute: typeof AboutUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events-offers': {
+      id: '/events-offers'
+      path: '/events-offers'
+      fullPath: '/events-offers'
+      preLoaderRoute: typeof EventsOffersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mahabalipuram': {
+      id: '/mahabalipuram'
+      path: '/mahabalipuram'
+      fullPath: '/mahabalipuram'
+      preLoaderRoute: typeof MahabalipuramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutUsRoute: AboutUsRoute,
+  EventsOffersRoute: EventsOffersRoute,
+  MahabalipuramRoute: MahabalipuramRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
