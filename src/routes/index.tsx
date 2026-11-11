@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import capturedCSS from "../styles/site.css?raw";
@@ -28,6 +28,13 @@ function Index() {
     { src: "/site-assets/93cd3f7520675cbe.jpg", alt: "The bar at Ideal Beach Resort" },
     { src: "/site-assets/ideal-resort-slide-4.jpg", alt: "A cultural performance at Ideal Beach Resort" },
   ];
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % slides.length);
+    }, 8000);
+
+    return () => window.clearInterval(interval);
+  }, [slides.length]);
   const currentSlide = slides.find((_, index) => index === activeSlide) ?? {
     src: "/site-assets/ideal-resort-slide-1.jpg",
     alt: "Beachside chess at Ideal Beach Resort",
