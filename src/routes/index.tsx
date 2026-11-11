@@ -75,7 +75,7 @@ function Index() {
                 <img className="logo-white" src="/site-assets/80da6815665131eb.png" alt="Ideal Beach Resort" />
               </a>
             </div>
-            <div className={`collapse navbar-collapse [@media(min-width:768px)]:pb-0${menuOpen ? " in" : ""}`} id="myNavbar">
+            <div className={`navbar-collapse [@media(min-width:768px)]:pb-0${menuOpen ? " in" : ""}`} id="myNavbar">
               <ul className="nav navbar-nav navbar-right navHome list-none pl-0 [@media(min-width:768px)]:float-right!" style={{ marginTop: "25px" }}>
                 <li>
                   <a href="/mahabalipuram" onClick={() => setMenuOpen(false)}>Ideal Beach Resort, Mahabalipuram</a>
