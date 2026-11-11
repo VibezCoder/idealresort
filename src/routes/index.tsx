@@ -29,6 +29,8 @@ function Index() {
     { src: "/site-assets/ideal-resort-slide-4.jpg", alt: "A cultural performance at Ideal Beach Resort" },
   ];
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const interval = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % slides.length);
     }, 8000);
