@@ -1,209 +1,234 @@
-import type { CSSProperties } from "react";
-import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
-import capturedCSS from "../styles/site.css?raw";
+import { useEffect, useRef } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { gsap, prefersReducedMotion, usePageMotion, scrollToTarget } from "@/lib/motion";
+import { SplitText } from "@/components/site/SplitText";
+import { Frame } from "@/components/site/Frame";
+import { BOOKING_URL } from "@/lib/site";
+import shore from "@/assets/shore.jpg";
+import heritage from "@/assets/heritage.jpg";
+import dining from "@/assets/dining.jpg";
+import cottage from "@/assets/room-cottage.jpg";
+import villa from "@/assets/room-villa.jpg";
+import pool from "@/assets/pool.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Ideal Beach Resort | Mahabalipuram" },
-      { name: "description", content: "Discover Ideal Beach Resort in Mahabalipuram and book your stay by the coast." },
-      { property: "og:title", content: "Ideal Beach Resort | Mahabalipuram" },
-      { property: "og:description", content: "Discover Ideal Beach Resort in Mahabalipuram and book your stay by the coast." },
+      { title: "Ideal Beach Resort | Beachfront stays in Mahabalipuram" },
+      { name: "description", content: "Cottages, villas and seafood under the palms — a beachfront resort on the Bay of Bengal beside Mahabalipuram's shore temples." },
+      { property: "og:title", content: "Ideal Beach Resort | Beachfront stays in Mahabalipuram" },
+      { property: "og:description", content: "Cottages, villas and seafood under the palms on the Bay of Bengal." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  staticData: { importedDocument: { html: { "lang": "en" }, body: { "className": "layout-switch" } } },
-  component: Index,
+  component: Home,
 });
 
-function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const slides = [
-    { src: "/site-assets/ideal-resort-slide-1.jpg", alt: "Beachside chess at Ideal Beach Resort" },
-    { src: "/site-assets/ideal-resort-slide-2.jpg", alt: "A celebration at Ideal Beach Resort" },
-    { src: "/site-assets/93cd3f7520675cbe.jpg", alt: "The bar at Ideal Beach Resort" },
-    { src: "/site-assets/ideal-resort-slide-4.jpg", alt: "A cultural performance at Ideal Beach Resort" },
-  ];
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+const ROOMS = [
+  { n: "01", name: "Sea-view Cottages", note: "Teak, linen and a veranda that opens onto the Bay.", img: cottage },
+  { n: "02", name: "Garden Villas", note: "Red-tiled roofs and a private plunge pool under frangipani.", img: villa },
+  { n: "03", name: "Poolside Rooms", note: "Step from your door into the palm-lined pool.", img: pool },
+];
 
-    const interval = window.setInterval(() => {
-      setActiveSlide((current) => (current + 1) % slides.length);
-    }, 8000);
+const VOICES = [
+  { q: "We came for two nights and stayed five. The sound of the sea never left the room.", who: "Ananya & Rohit", from: "Bengaluru" },
+  { q: "Breakfast under the palms, the Shore Temple at sunset — the kind of quiet you plan a year for.", who: "Claire M.", from: "Lyon" },
+  { q: "The staff remembered our daughter's name by the second morning. That's Ideal.", who: "The Raghavan family", from: "Chennai" },
+];
 
-    return () => window.clearInterval(interval);
-  }, [slides.length]);
-  const currentSlide = slides.find((_, index) => index === activeSlide) ?? {
-    src: "/site-assets/ideal-resort-slide-1.jpg",
-    alt: "Beachside chess at Ideal Beach Resort",
-  };
-  const showSlide = (index: number) => setActiveSlide((index + slides.length) % slides.length);
+const OFFERS = [
+  { tag: "Weddings", title: "Vows on the sand", body: "Lawns, beach mandaps and a team that has hosted celebrations for decades." },
+  { tag: "Retreats", title: "Offsites by the sea", body: "Conference halls, team evenings on the shore, an hour from Chennai." },
+  { tag: "Seasonal", title: "Long-weekend escapes", body: "Stay longer, save more — seasonal rates for slow coastal weekends." },
+];
 
+function Home() {
+  const page = useRef<HTMLDivElement>(null);
+  usePageMotion(page);
   return (
-    <>
-      <style>{capturedCSS}</style>
-      <div className="ip-container loaded h-full relative" id="ip-container">
-        <header className="ip-header h-full min-h-[480px] absolute top-0 z-99999 [animation:1s_cubic-bezier(0.7,0,0.3,1)_0s_1_normal_forwards_running_animLoadedHeader]" style={{ transform: "translate3d(0px, -100%, 0px)", opacity: "0" }}>
-          <h1 className="ip-logo cursor-default h-full left-0 pointer-events-none absolute top-0 [animation:1s_cubic-bezier(0.7,0,0.3,1)_0s_1_normal_forwards_running_animLoadedLogo]" style={{ transform: "translate3d(0px, 100%, 0px) translate3d(0px, 50px, 0px) scale3d(0.65, 0.65, 1)" }}>
-            <svg className="ip-inner max-w-[480px] min-w-[320px]" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="0px" height="0px" viewBox="0 0 200 118.063" xmlSpace="preserve" {...({ version: "1.1", "xmlns:x": "&ns_extend;", "xmlns:i": "&ns_ai;", "xmlns:graph": "&ns_graphs;" } as any)}>
-              <g />
-            </svg>
-          </h1>
-          <div className="ip-loader bottom-1/5 cursor-default left-0 pointer-events-none absolute [animation:0.5s_cubic-bezier(0.7,0,0.3,1)_0s_1_normal_forwards_running_animLoadedLoader]" style={{ transform: "translate3d(0px, -100%, 0px) scale3d(0.3, 0.3, 1)", opacity: "0" }}>
-            <svg className="ip-inner" width="0px" height="0px" viewBox="0 0 80 80">
-              <path className="ip-loader-circlebg fill-none" d="M40,10C57.351,10,71,23.649,71,40.5S57.351,71,40.5,71 S10,57.351,10,40.5S23.649,10,40.5,10z" />
-              <path className="ip-loader-circle fill-none [transition:stroke-dashoffset_0.2s]" style={{ strokeDashoffset: "0", strokeDasharray: "192.617" } as CSSProperties} id="ip-loader-circle" d="M40,10C57.351,10,71,23.649,71,40.5S57.351,71,40.5,71 S10,57.351,10,40.5S23.649,10,40.5,10z" />
-            </svg>
+    <div ref={page}>
+      <Hero />
+
+      <section data-theme="light" className="bg-background px-6 py-32 md:px-10 md:py-48">
+        <div className="mx-auto grid max-w-[1600px] gap-16 md:grid-cols-12">
+          <p data-reveal className="text-xs uppercase tracking-[0.3em] text-muted-foreground md:col-span-3">(01) — The resort</p>
+          <div className="md:col-span-9">
+            <SplitText text="Forty acres of palm grove, one long stretch of sand, and the oldest temples on the coast for neighbours." className="font-display text-4xl leading-[1.05] md:text-7xl" />
+            <div className="mt-14 grid gap-10 md:grid-cols-2">
+              <p data-reveal className="text-lg leading-relaxed text-muted-foreground">Ideal Beach Resort sits on the East Coast Road just north of Mahabalipuram — far enough to hear only the waves, close enough to walk the UNESCO monuments at dawn.</p>
+              <p data-reveal="0.1" className="text-lg leading-relaxed text-muted-foreground">Rooms open onto gardens and sea. Days drift between the pool, the beach and long lunches of the morning's catch.</p>
+            </div>
           </div>
-        </header>
+        </div>
+      </section>
+
+      <div data-theme="light" className="overflow-hidden border-y border-border bg-background py-8">
+        <div className="marquee flex w-max gap-16 whitespace-nowrap font-display text-6xl italic text-muted-foreground md:text-8xl">
+          {Array.from({ length: 2 }).map((_, k) => (
+            <span key={k} className="flex gap-16">
+              <span>Sea</span><span>·</span><span>Stone</span><span>·</span><span>Palm</span><span>·</span><span>Spice</span><span>·</span><span>Tide</span><span>·</span>
+            </span>
+          ))}
+        </div>
       </div>
-      <div className="page h-full overflow-hidden relative" id="page">
-        <nav className="navbar navbar-fixed-top homeHeader mb-[20px] min-h-[50px] top-0" role="navigation">
-          <div className="container-fluid mr-auto pl-[15px] pr-[15px]">
-            <div className="navbar-header [@media(max-width:990px)]:h-[97px] [@media(min-width:768px)]:float-left">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="navbar-toggle float-right overflow-visible py-[9px] px-[10px] relative [&:focus]:outline-0"
-                type="button"
-                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-                aria-expanded={menuOpen}
-                aria-controls="myNavbar"
-                onClick={() => setMenuOpen((open) => !open)}
-              >
-                <span className="icon-bar h-[2px]" />
-                <span className="icon-bar h-[2px] mt-[4px]" />
-                <span className="icon-bar h-[2px] mt-[4px]" />
-              </Button>
-              <a className="navbar-brand float-left h-auto leading-[20px] p-0 relative" href="/">
-                <img className="logo-black" src="/site-assets/80da6815665131eb.png" alt="Ideal Beach Resort" />
-                <img className="logo-white" src="/site-assets/80da6815665131eb.png" alt="Ideal Beach Resort" />
-              </a>
-            </div>
-            <div className={`navbar-collapse [@media(min-width:768px)]:pb-0${menuOpen ? " in" : ""}`} id="myNavbar">
-              <ul className="nav navbar-nav navbar-right navHome list-none pl-0 [@media(min-width:768px)]:float-right!" style={{ marginTop: "25px" }}>
-                <li>
-                  <a href="/mahabalipuram" onClick={() => setMenuOpen(false)}>Ideal Beach Resort, Mahabalipuram</a>
-                </li>
-                <li>
-                  <a href="/events-offers" onClick={() => setMenuOpen(false)}>Events &amp; Offers </a>
-                </li>
-                <li>
-                  <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us </a>
-                </li>
-              </ul>
-            </div>
+
+      <section id="stay" data-theme="light" className="bg-background px-6 py-32 md:px-10">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mb-20 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <SplitText text="Places to stay" className="font-display text-6xl md:text-8xl" />
+            <p data-reveal className="max-w-sm text-muted-foreground">Three ways to wake by the Bay of Bengal — each a few steps from the sand.</p>
           </div>
-        </nav>
-        <div className="sliderContainer fullWidth clearfix max-w-[1600px] p-0 relative [@media(max-width:990px)]:relative">
-          <div className="royalSlider rsMinW rsHor overflow-hidden relative [direction:ltr] [transition:margin-top_0.5s_ease-in-out]" style={{ height: "720px" }} id="full-width-slider" data-site-import-responsive="18">
-            <div className="rsOverflow grab-cursor overflow-hidden relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]" style={{ width: "1529px", height: "720px" }} data-site-import-responsive="19">
-              <div className="rsContainer h-full relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]">
-                <div className="rsSlide h-full overflow-hidden absolute top-0" aria-live="polite">
-                  <div className="rsContent h-full relative" style={{ visibility: "visible", opacity: "1", transition: "opacity 400ms ease-in-out" }}>
-                    <img className="rsImg ideal-slide-image" src={currentSlide.src} alt={currentSlide.alt} />
-                    <div className="overlay h-full absolute top-0" />
+          <div data-stagger className="grid gap-10 md:grid-cols-3">
+            {ROOMS.map((r, i) => (
+              <a key={r.n} href={BOOKING_URL} target="_blank" rel="noreferrer" className={`group block ${i === 1 ? "md:mt-24" : i === 2 ? "md:mt-48" : ""}`}>
+                <div className="lift bg-card">
+                  <Frame src={r.img} alt={r.name} className="aspect-[4/5]" amount={8} width={1200} height={1504} />
+                  <div className="flex items-start justify-between gap-6 p-6">
+                    <div>
+                      <h3 className="font-display text-3xl">{r.name}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{r.note}</p>
+                    </div>
+                    <span className="font-display text-xl italic text-accent">{r.n}</span>
                   </div>
                 </div>
-              </div>
-              <Button variant="ghost" size="icon" className="rsArrow rsArrowLeft bottom-[30px] h-[32px] absolute right-[37px] z-9999" aria-label="Previous slide" onClick={() => showSlide(activeSlide - 1)}>
-                <span className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
-              </Button>
-              <Button variant="ghost" size="icon" className="rsArrow rsArrowRight bottom-[30px] h-[32px] absolute right-[7px] z-9999" aria-label="Next slide" onClick={() => showSlide(activeSlide + 1)}>
-                <span className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
-              </Button>
-            </div>
-            <div className="rsNav bottom-[45px] h-auto leading-[6px] overflow-hidden pr-[2px] pt-[4px] absolute right-[73px] text-center select-none z-999">
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.src}
-                  type="button"
-                  className={`rsBullet h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]${activeSlide === index ? " rsNavSelected" : ""}`}
-                  aria-label={`Show slide ${index + 1}`}
-                  aria-current={activeSlide === index ? "true" : undefined}
-                  onClick={() => showSlide(index)}
-                >
-                  <span />
-                </button>
-              ))}
-            </div>
-            <div className="rsGCaption bottom-[6px] text-[12px] font-bold left-[6px] py-[2px] px-[8px] absolute text-left" />
-          </div>
-          <div id="reserBtn">
-            <p className="reserBtn">
-              <a href={"https://www.swiftbook.io/inst/#home?propertyId=762MTwm3aRnGX73Yci3PKRVGT6dwwndjKZA7SyKnUZEQ0OQ==&JDRN=Y"} target="_blank">Book Now</a>
-            </p>
-          </div>
-          <div className={"\x63ol-sm-12 weatherhead bottom-[18%] max-w-[41%] right-[2%]"}>
-            <div className="weather row" />
-          </div>
-        </div>
-      </div>
-      <div className="container-fluid mr-auto pl-[15px] pr-[15px]" id="footer">
-        <div className="row">
-          <div className={"\x63ol-xs-12 \x63ol-sm-6 footer_colum h-[150px]"}>
-            <div className={"\x63ol-xs-12 \x63ol-sm-6 footer_address"}>
-              <a href="/mahabalipuram">
-                <h3 id="footer_title">Ideal Beach Resort, Mahabalipuram</h3>
               </a>
-              <p id="footer_contacts">
-      								Booking Office : <a href="tel:+91-44-24495161">+91-44-24495161</a> / <a href="tel:+91-44-24495164">164</a><br /><span className="fa fa-phone antialiased font-[family-name:FontAwesome] not-italic font-normal leading-none [font-feature-settings:normal] [font-kerning:auto] [font-language-override:normal] [font-optical-sizing:auto] [font-size:inherit] [font-size-adjust:none] [font-stretch:normal] [font-variant:normal] [font-variation-settings:normal] [text-rendering:auto]" /><a href="tel:+914427442240">+91 44-27442240</a>
-      																			  /  <a href="tel:+914427442443">2443</a><br /><span className="fa fa-envelope antialiased font-[family-name:FontAwesome] not-italic font-normal leading-none [font-feature-settings:normal] [font-kerning:auto] [font-language-override:normal] [font-optical-sizing:auto] [font-size:inherit] [font-size-adjust:none] [font-stretch:normal] [font-variant:normal] [font-variation-settings:normal] [text-rendering:auto]" /> <a href="mailto:reservation@idealresort.com">reservation@idealresort.com</a> </p>
-            </div>
-          </div>
-          <div className={"\x63ol-xs-12 \x63ol-sm-6 footer_colum h-[150px]"}>
-            <div className="footer_social social-icons text-right">
-              <ul className="social-network social-circle list-none p-0">
-                <li>
-                  <a className="icoFacebook" href="https://www.facebook.com/trulyideal/" target="_blank" title="Facebook">
-                    <i className="fa fa-facebook antialiased font-[family-name:FontAwesome] not-italic font-normal leading-[32px] text-center [font-feature-settings:normal] [font-kerning:auto] [font-language-override:normal] [font-optical-sizing:auto] [font-size:inherit] [font-size-adjust:none] [font-stretch:normal] [font-variant:normal] [font-variation-settings:normal] [text-rendering:auto]" aria-hidden="true" />
-                  </a>
-                </li>
-                <li>
-                  <a style={{ backgroundColor: "rgb(173, 23, 163)" }} href="https://www.instagram.com/idealbeach/" target="_blank" title="Instagram">
-                    <i className="fa fa-instagram antialiased font-[family-name:FontAwesome] not-italic font-normal leading-[32px] text-center [font-feature-settings:normal] [font-kerning:auto] [font-language-override:normal] [font-optical-sizing:auto] [font-size:inherit] [font-size-adjust:none] [font-stretch:normal] [font-variant:normal] [font-variation-settings:normal] [text-rendering:auto]" aria-hidden="true" />
-                  </a>
-                </li>
-                <li>
-                  <a className="icoTwitter" title="Twitter">
-                    <i className="fa fa-twitter antialiased font-[family-name:FontAwesome] not-italic font-normal leading-[32px] text-center [font-feature-settings:normal] [font-kerning:auto] [font-language-override:normal] [font-optical-sizing:auto] [font-size:inherit] [font-size-adjust:none] [font-stretch:normal] [font-variant:normal] [font-variation-settings:normal] [text-rendering:auto]" />
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="footer_powerby text-right">
-              <p id="copy_text">Ideal Beach Resort © 2026. 
-      				<span>{"\n\t\t\t\t    \n\t\t\t\t    "}<a href="https://vleafy.com" target="_blank"><img style={{ width: "75px" }} src="/site-assets/b3ac6c07cfa7bcfe-aec1cb30e9941762930548959e615d00.png" /></a>{"\n\t\t\t\t    \n\t\t\t\t"}</span></p>
-            </div>
+            ))}
           </div>
         </div>
+      </section>
+
+      <section data-theme="dark" className="bg-ink px-6 py-32 text-ink-foreground md:px-10 md:py-44">
+        <div className="mx-auto grid max-w-[1600px] items-center gap-16 md:grid-cols-12">
+          <Frame src={heritage} alt="The Shore Temple at sunset" className="aspect-[4/5] md:col-span-5" amount={14} width={1280} height={1600} />
+          <div className="md:col-span-6 md:col-start-7">
+            <p data-reveal className="mb-8 text-xs uppercase tracking-[0.3em] text-ink-muted">(02) — Heritage</p>
+            <SplitText text="Thirteen centuries of carved granite, five minutes down the road." className="font-display text-5xl leading-[1.02] md:text-7xl" />
+            <p data-reveal className="mt-10 max-w-lg text-lg leading-relaxed text-ink-muted">The Pallava kings carved temples from living rock here. Watch the Shore Temple turn gold at dusk, then walk back along the beach to dinner.</p>
+            <Link to="/mahabalipuram" data-reveal className="group mt-12 inline-flex items-center gap-4 text-sm uppercase tracking-[0.25em]">
+              <span className="h-px w-12 bg-current transition-all duration-700 group-hover:w-20" /> Discover Mahabalipuram
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section data-theme="light" className="bg-secondary px-6 py-32 md:px-10 md:py-44">
+        <div className="mx-auto grid max-w-[1600px] gap-16 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <p data-reveal className="mb-8 text-xs uppercase tracking-[0.3em] text-muted-foreground">(03) — Dining</p>
+            <SplitText text="The catch, the coast, the candlelight." className="font-display text-5xl leading-[1.02] md:text-7xl" />
+            <p data-reveal className="mt-10 max-w-md text-lg leading-relaxed text-muted-foreground">Tiger prawns off the grill, Chettinad spice, cold drinks at the bar as the tide comes in. Tables are set on the sand when the evening is kind.</p>
+          </div>
+          <div className="relative md:col-span-7">
+            <Frame src={dining} alt="Candle-lit seafood dinner on the beach" className="aspect-[4/3]" amount={10} width={1600} height={1200} />
+            <Frame src="/site-assets/ideal-resort-slide-3.jpg" alt="The bar at Ideal Beach Resort" className="absolute -bottom-16 -left-10 hidden aspect-square w-56 border-8 border-secondary md:block" amount={16} />
+          </div>
+        </div>
+      </section>
+
+      <section data-theme="light" className="bg-background px-6 py-32 md:px-10 md:py-44">
+        <div className="mx-auto max-w-[1600px]">
+          <div className="mb-20 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <SplitText text="Events & offers" className="font-display text-6xl md:text-8xl" />
+            <Link to="/events-offers" data-reveal className="text-sm uppercase tracking-[0.25em] underline-offset-8 hover:underline">See everything →</Link>
+          </div>
+          <div data-stagger className="grid gap-px bg-border md:grid-cols-3">
+            {OFFERS.map((o) => (
+              <Link key={o.title} to="/events-offers" className="group block bg-background">
+                <div className="lift flex h-full flex-col justify-between bg-background p-10 transition-colors duration-700 group-hover:bg-ink group-hover:text-ink-foreground">
+                  <span className="text-xs uppercase tracking-[0.3em] text-accent">{o.tag}</span>
+                  <div className="mt-24">
+                    <h3 className="font-display text-4xl">{o.title}</h3>
+                    <p className="mt-4 leading-relaxed opacity-70">{o.body}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section data-theme="dark" className="bg-ocean px-6 py-32 text-ink-foreground md:px-10 md:py-44">
+        <div className="mx-auto max-w-[1600px]">
+          <p data-reveal className="mb-16 text-xs uppercase tracking-[0.3em] text-ink-muted">(04) — Guest voices</p>
+          <div data-stagger className="grid gap-16 md:grid-cols-3">
+            {VOICES.map((v) => (
+              <figure key={v.who} className="border-t border-ink-foreground/25 pt-10">
+                <blockquote className="font-display text-3xl leading-snug">“{v.q}”</blockquote>
+                <figcaption className="mt-8 text-sm uppercase tracking-[0.2em] text-ink-muted">{v.who} — {v.from}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section data-theme="light" className="bg-background px-6 py-32 md:px-10">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-2 gap-4 md:grid-cols-4">
+          {["ideal-resort-slide-1.jpg", "ideal-resort-slide-2.jpg", "ideal-resort-slide-3.jpg", "ideal-resort-slide-4.jpg"].map((f, i) => (
+            <Frame key={f} src={`/site-assets/${f}`} alt="Life at Ideal Beach Resort" className={`aspect-[3/4] ${i % 2 ? "md:mt-20" : ""}`} amount={i % 2 ? 16 : 8} />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const cut = el.querySelector<HTMLElement>(".cutout");
+    if (prefersReducedMotion()) {
+      cut?.style.setProperty("--m", "4000");
+      return;
+    }
+    const ctx = gsap.context(() => {
+      // Arrival: the palm cutout blooms open, copy rises.
+      const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+      intro
+        .fromTo(".cutout", { "--m": 0 }, { "--m": 46, duration: 1.8 })
+        .fromTo(".hero-img", { scale: 1.6 }, { scale: 1.3, duration: 2.2 }, 0)
+        .from(".hero-word", { yPercent: 120, duration: 1.3, stagger: 0.07 }, 0.5)
+        .from(".hero-meta", { opacity: 0, y: 20, duration: 1, stagger: 0.1 }, 0.9);
+
+      // Scroll: cutout expands into the full image, copy lifts away. Scrubbed, reverses at top.
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: el, start: "top top", end: "+=160%", scrub: 1, pin: true, anticipatePin: 1 },
+      });
+      tl.fromTo(".cutout", { "--m": 46 }, { "--m": 5200, ease: "power3.in", immediateRender: false }, 0)
+        .fromTo(".hero-img", { scale: 1.3 }, { scale: 1, ease: "none", immediateRender: false }, 0)
+        .to(".hero-copy", { yPercent: -60, opacity: 0, ease: "power1.in", duration: 0.45 }, 0)
+        .to(".hero-meta", { opacity: 0, duration: 0.25 }, 0)
+        .fromTo(".hero-after", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3 }, 0.7);
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
+  const words = "Where the palms meet the Bay".split(" ");
+  return (
+    <section ref={ref} data-theme="dark" className="relative h-[100svh] overflow-hidden bg-ink text-ink-foreground">
+      <div className="cutout absolute inset-0">
+        <img src={shore} alt="Palms and fishing boats on the beach at sunset" className="hero-img h-full w-full object-cover" width={1600} height={1104} />
       </div>
-      <div id="overlay" />
-      <div role="dialog" id="baguetteBox-overlay">
-        <div id="baguetteBox-slider" />
-        <button className="baguetteBox-button h-[60px] left-[2%] outline-0 overflow-visible p-0 absolute top-[calc(50%_-_30px)] [transition:background-color_0.4s]" type="button" id="previous-button" aria-label="Previous">
-          <svg width="44" height="60">
-            <polyline points="30 10 10 30 30 50" stroke="rgba(255,255,255,0.5)" strokeWidth="4" strokeLinecap="butt" fill="none" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button className="baguetteBox-button h-[60px] outline-0 overflow-visible p-0 absolute right-[2%] top-[calc(50%_-_30px)] [transition:background-color_0.4s]" type="button" id="next-button" aria-label="Next">
-          <svg width="44" height="60">
-            <polyline points="14 10 34 30 14 50" stroke="rgba(255,255,255,0.5)" strokeWidth="4" strokeLinecap="butt" fill="none" strokeLinejoin="round" />
-          </svg>
-        </button>
-        <button className="baguetteBox-button h-[30px] outline-0 overflow-visible p-0 absolute right-[calc(2%_+_6px)] top-[20px] [transition:background-color_0.4s]" type="button" id="close-button" aria-label="Close">
-          <svg width="30" height="30">
-            <g stroke="rgb(160,160,160)" strokeWidth="4">
-              <line x1="5" y1="5" x2="25" y2="25" />
-              <line x1="5" y1="25" x2="25" y2="5" />
-            </g>
-          </svg>
-        </button>
+      <div className="hero-copy pointer-events-none absolute inset-x-0 top-[14vh] px-6 text-center md:top-[12vh]">
+        <p className="hero-meta mb-5 text-xs uppercase tracking-[0.4em] text-ink-muted">Ideal Beach Resort · Mahabalipuram</p>
+        <h1 className="font-display text-[13vw] leading-[0.9] md:text-[7.5vw]" aria-label="Where the palms meet the Bay">
+          {words.map((w, i) => (
+            <span key={i} className="split-line" aria-hidden><span className="hero-word split-word">{w}&nbsp;</span></span>
+          ))}
+        </h1>
       </div>
-    </>
+      <div className="hero-after pointer-events-none absolute inset-x-0 bottom-16 px-6 text-center opacity-0">
+        <p className="font-display text-4xl italic md:text-6xl">Arrive. Exhale. Stay a while.</p>
+      </div>
+      <div className="absolute inset-x-0 bottom-8 flex items-end justify-between px-6 text-xs uppercase tracking-[0.3em] md:px-10">
+        <span className="hero-meta text-ink-muted">12.65° N, 80.20° E</span>
+        <button type="button" onClick={() => scrollToTarget("#stay")} className="hero-meta flex flex-col items-center gap-3 text-ink-muted hover:text-ink-foreground">
+          Scroll <span className="h-10 w-px animate-pulse bg-current" />
+        </button>
+        <a href={BOOKING_URL} target="_blank" rel="noreferrer" className="hero-meta text-ink-muted hover:text-ink-foreground">Book →</a>
+      </div>
+    </section>
   );
 }
