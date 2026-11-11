@@ -13,6 +13,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { useSmoothScroll } from "../lib/motion";
+import { Header } from "../components/site/Header";
+import { Footer } from "../components/site/Footer";
 
 function NotFoundComponent() {
   return (
@@ -82,14 +85,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Ideal Beach Resort, Mahabalipuram" },
+      { name: "description", content: "A beachfront resort on the Bay of Bengal, minutes from the shore temples of Mahabalipuram." },
+      { name: "author", content: "Ideal Beach Resort" },
+      { property: "og:title", content: "Ideal Beach Resort, Mahabalipuram" },
+      { property: "og:description", content: "A beachfront resort on the Bay of Bengal, minutes from the shore temples of Mahabalipuram." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -97,6 +99,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -117,12 +122,11 @@ declare module "@tanstack/react-router" {
 function RootShell({ children }: { children: ReactNode }) {
   const importedDocument = useImportedMatches({ select: matches => matches.at(-1)?.staticData.importedDocument });
   return (
-    <html lang="en" {...importedDocument?.html}>
+    <html lang="en" data-ink="dark" suppressHydrationWarning {...importedDocument?.html}>
       <head>
-        <style href="site-import-inline" precedence="imported-inline">{"@layer imported-inline;"}</style>
         <HeadContent />
       </head>
-      <body {...importedDocument?.body}>
+      <body className="grain" {...importedDocument?.body}>
         {children}
         <Scripts />
       </body>
@@ -132,11 +136,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useSmoothScroll();
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </QueryClientProvider>
   );
 }

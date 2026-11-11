@@ -29,4 +29,6 @@ use the editor.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
 
-Imported website pages keep captured source styling in `src/styles/site.css`, separate from the shared design tokens, to preserve source-page fidelity while isolating follow-up fixes.
+Motion lives in `src/lib/motion.ts` (Lenis driven by the GSAP ticker; pages opt in via `data-reveal`, `data-split`, `data-stagger`, `data-parallax`, `data-theme` attributes) so every page shares one scroll engine.
+Hover transforms go on inner `.zoom`/`.lift` elements, never on the element GSAP animates, so hover and scroll-linked transforms never fight.
+The header inks itself from `html[data-ink]`, set by section scroll triggers, so no React state re-renders on scroll.
