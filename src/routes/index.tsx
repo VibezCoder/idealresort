@@ -1,14 +1,35 @@
 import type { CSSProperties } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import capturedCSS from "../styles/site.css?raw";
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: [{ title: "Welcome to Ideal Resort Home" }] }),
+  head: () => ({
+    meta: [
+      { title: "Ideal Beach Resort | Mahabalipuram" },
+      { name: "description", content: "Discover Ideal Beach Resort in Mahabalipuram and book your stay by the coast." },
+      { property: "og:title", content: "Ideal Beach Resort | Mahabalipuram" },
+      { property: "og:description", content: "Discover Ideal Beach Resort in Mahabalipuram and book your stay by the coast." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   staticData: { importedDocument: { html: { "lang": "en" }, body: { "className": "layout-switch" } } },
   component: Index,
 });
 
 function Index() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const slides = [
+    { src: "/site-assets/ideal-resort-slide-1.jpg", alt: "Beachside chess at Ideal Beach Resort" },
+    { src: "/site-assets/ideal-resort-slide-2.jpg", alt: "A celebration at Ideal Beach Resort" },
+    { src: "/site-assets/93cd3f7520675cbe.jpg", alt: "The bar at Ideal Beach Resort" },
+    { src: "/site-assets/ideal-resort-slide-4.jpg", alt: "A cultural performance at Ideal Beach Resort" },
+  ];
+  const showSlide = (index: number) => setActiveSlide((index + slides.length) % slides.length);
+
   return (
     <>
       <style>{capturedCSS}</style>
