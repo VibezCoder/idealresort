@@ -4087,3 +4087,13 @@ img.rsImg { max-width: none; }
   background: transparent;
   cursor: pointer;
 }
+
+@media (max-width: 990px) {
+  #myNavbar:not(.in) {
+    display: none;
+  }
+
+  #myNavbar.in {
+    display: block;
+  }
+}
