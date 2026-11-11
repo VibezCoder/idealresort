@@ -4059,3 +4059,31 @@ img.rsImg { max-width: none; }
 }
 
 
+
+
+/* Homepage slider controls and image sizing, maintained alongside the captured source styles. */
+#full-width-slider .rsOverflow {
+  width: 100% !important;
+}
+#full-width-slider .rsContainer {
+  width: 100%;
+  transform: none !important;
+}
+#full-width-slider .ideal-slide-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  object-position: center;
+}
+#full-width-slider button.rsArrow {
+  border: 0;
+  background: transparent;
+}
+#full-width-slider .rsNav button.rsBullet {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}

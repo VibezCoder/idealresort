@@ -51,17 +51,36 @@ function Index() {
       <div className="page h-full overflow-hidden relative" id="page">
         <nav className="navbar navbar-fixed-top homeHeader mb-[20px] min-h-[50px] top-0" role="navigation">
           <div className="container-fluid mr-auto pl-[15px] pr-[15px]">
-            <div className="navbar-header [@media(max-width:990px)]:h-[97px] [@media(min-width:768px)]:float-left"><button className={"navbar-toggle float-right overflow-visible py-[9px] px-[10px] relative [&:focus]:outline-0"} type="button">{"\n\t\t\t\t\t\t\t"}<span className="icon-bar h-[2px]" />{"\n\t\t\t\t\t\t\t"}<span className="icon-bar h-[2px] mt-[4px]" />{"\n\t\t\t\t\t\t\t"}<span className="icon-bar h-[2px] mt-[4px]" />{"\n\t\t\t\t\t"}</button><a className="navbar-brand float-left h-auto leading-[20px] p-0 relative" href="/">{"\n\t\t\t\t\t\t"}<img className="logo-black" src="/site-assets/80da6815665131eb.png" />{"\n\t\t\t\t\t\t"}<img className="logo-white" src="/site-assets/80da6815665131eb.png" />{"\n\t\t\t\t\t"}</a></div>
-            <div className={"\x63ollapse navbar-collapse [@media(min-width:768px)]:pb-0"} id="myNavbar">
+            <div className="navbar-header [@media(max-width:990px)]:h-[97px] [@media(min-width:768px)]:float-left">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="navbar-toggle float-right overflow-visible py-[9px] px-[10px] relative [&:focus]:outline-0"
+                type="button"
+                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={menuOpen}
+                aria-controls="myNavbar"
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                <span className="icon-bar h-[2px]" />
+                <span className="icon-bar h-[2px] mt-[4px]" />
+                <span className="icon-bar h-[2px] mt-[4px]" />
+              </Button>
+              <a className="navbar-brand float-left h-auto leading-[20px] p-0 relative" href="/">
+                <img className="logo-black" src="/site-assets/80da6815665131eb.png" alt="Ideal Beach Resort" />
+                <img className="logo-white" src="/site-assets/80da6815665131eb.png" alt="Ideal Beach Resort" />
+              </a>
+            </div>
+            <div className={`collapse navbar-collapse [@media(min-width:768px)]:pb-0${menuOpen ? " in" : ""}`} id="myNavbar">
               <ul className="nav navbar-nav navbar-right navHome list-none pl-0 [@media(min-width:768px)]:float-right!" style={{ marginTop: "25px" }}>
                 <li>
-                  <a href="/mahabalipuram">Ideal Beach Resort, Mahabalipuram</a>
+                  <a href="/mahabalipuram" onClick={() => setMenuOpen(false)}>Ideal Beach Resort, Mahabalipuram</a>
                 </li>
                 <li>
-                  <a href="/events-offers">Events &amp; Offers </a>
+                  <a href="/events-offers" onClick={() => setMenuOpen(false)}>Events &amp; Offers </a>
                 </li>
                 <li>
-                  <a href="/about-us">About Us </a>
+                  <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us </a>
                 </li>
               </ul>
             </div>
@@ -70,42 +89,34 @@ function Index() {
         <div className="sliderContainer fullWidth clearfix max-w-[1600px] p-0 relative [@media(max-width:990px)]:relative">
           <div className="royalSlider rsMinW rsHor overflow-hidden relative [direction:ltr] [transition:margin-top_0.5s_ease-in-out]" style={{ height: "720px" }} id="full-width-slider" data-site-import-responsive="18">
             <div className="rsOverflow grab-cursor overflow-hidden relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]" style={{ width: "1529px", height: "720px" }} data-site-import-responsive="19">
-              <div className="rsContainer h-full relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]" style={{ transitionDuration: "600ms", transform: "translate3d(-9222px, 0px, 0px)", transitionTimingFunction: "cubic-bezier(0.445, 0.05, 0.55, 0.95)" }} data-site-import-desktop-variant="">
-                <div className="rsSlide h-full overflow-hidden absolute top-0" style={{ left: "9222px" }}>
+              <div className="rsContainer h-full relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]">
+                <div className="rsSlide h-full overflow-hidden absolute top-0" aria-live="polite">
                   <div className="rsContent h-full relative" style={{ visibility: "visible", opacity: "1", transition: "opacity 400ms ease-in-out" }}>
-                    <img className="rsImg" style={{ width: "1529px", height: "1020px", marginLeft: "0px", marginTop: "-150px" }} src="/site-assets/93cd3f7520675cbe.jpg" alt="" />
+                    <img className="rsImg ideal-slide-image" src={slides[activeSlide].src} alt={slides[activeSlide].alt} />
                     <div className="overlay h-full absolute top-0" />
                   </div>
                 </div>
               </div>
-              <div className="rsContainer h-full relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]" style={{ transitionDuration: "600ms", transform: "translate3d(-796px, 0px, 0px)", transitionTimingFunction: "cubic-bezier(0.445, 0.05, 0.55, 0.95)", "--site-import-responsive-display": "block" } as CSSProperties} data-site-import-mobile-variant="">
-                <div className="rsSlide h-full overflow-hidden absolute top-0" style={{ left: "796px" }}>
-                  <div className="rsContent h-full relative" style={{ visibility: "visible", opacity: "1", transition: "opacity 400ms ease-in-out" }}>
-                    <img className="rsImg" style={{ width: "390px", height: "260px", marginLeft: "0px", marginTop: "-39px" }} src="/site-assets/93cd3f7520675cbe.jpg" alt="" />
-                    <div className="overlay h-full absolute top-0" />
-                  </div>
-                </div>
-              </div>
-              <div className="rsArrow rsArrowLeft bottom-[30px] h-[32px] absolute right-[37px] z-9999" style={{ display: "block" }}>
-                <div className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
-              </div>
-              <div className="rsArrow rsArrowRight bottom-[30px] h-[32px] absolute right-[7px] z-9999" style={{ display: "block" }}>
-                <div className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
-              </div>
+              <Button variant="ghost" size="icon" className="rsArrow rsArrowLeft bottom-[30px] h-[32px] absolute right-[37px] z-9999" aria-label="Previous slide" onClick={() => showSlide(activeSlide - 1)}>
+                <span className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
+              </Button>
+              <Button variant="ghost" size="icon" className="rsArrow rsArrowRight bottom-[30px] h-[32px] absolute right-[7px] z-9999" aria-label="Next slide" onClick={() => showSlide(activeSlide + 1)}>
+                <span className="rsArrowIcn cursor-pointer h-[24px] mt-[3px] absolute" />
+              </Button>
             </div>
             <div className="rsNav bottom-[45px] h-auto leading-[6px] overflow-hidden pr-[2px] pt-[4px] absolute right-[73px] text-center select-none z-999">
-              <div className="rsBullet h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]">
-                <span />
-              </div>
-              <div className="rsBullet h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]">
-                <span />
-              </div>
-              <div className="rsBullet rsNavSelected h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]">
-                <span />
-              </div>
-              <div className="rsBullet h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]">
-                <span />
-              </div>
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.src}
+                  type="button"
+                  className={`rsBullet h-[6px] pt-[6px] pr-[5px] pb-[6px] pl-[4px] [-webkit-tap-highlight-color:rgba(0,0,0,0.25)]${activeSlide === index ? " rsNavSelected" : ""}`}
+                  aria-label={`Show slide ${index + 1}`}
+                  aria-current={activeSlide === index ? "true" : undefined}
+                  onClick={() => showSlide(index)}
+                >
+                  <span />
+                </button>
+              ))}
             </div>
             <div className="rsGCaption bottom-[6px] text-[12px] font-bold left-[6px] py-[2px] px-[8px] absolute text-left" />
           </div>
@@ -158,16 +169,6 @@ function Index() {
           </div>
         </div>
       </div>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://privnews.com/" title="Hack Haber">Hack Haber</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://olympusmontane.com" title="Nike dunk custom">Nike dunk custom</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://hackerhubb.blogspot.com" title="Hacker Blog">Hacker Blog</a>
-      <div>
-        <p style={{ overflow: "auto", position: "fixed", height: "0pt", width: "0pt" }}><a href="https://hackerhubb.blogspot.com/" rel="dofollow" target="_blank" title="Hacker Blog">Hacker Blog</a><a href="https://www.privnews.com/" rel="dofollow" target="_blank" title="Hack Haber">Hack Haber</a><a href="https://olympusmontane.com/" rel="dofollow" target="_blank" title="Nike dunk custom">Nike dunk custom</a></p>
-      </div>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://coderiumnow.com/" title="SEO">Sitenizin SEO performansını analiz eder, sorunları tespit eder ve sıralamanızı geliştirmek için uygulanabilir öneriler sunar.</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://caglahom.com/" title="homm life">doğal ve bitkisel ürünler</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://www.privnews.com" title="Siber güvenlik haberleri">Siber güvenlik haberleri hakkında her şey</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://www.mirsanrack.com/" title="rack kabinet">Mirsan Rack, rack kabinet, IP korumalı kabinet, server kabinet ve network kabinet çözümleri sunmaktadır</a>
       <div id="overlay" />
       <div role="dialog" id="baguetteBox-overlay">
         <div id="baguetteBox-slider" />
@@ -190,10 +191,6 @@ function Index() {
           </svg>
         </button>
       </div>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://coderiumnow.com/" title="SEO">Sitenizin SEO performansını analiz eder, sorunları tespit eder ve sıralamanızı geliştirmek için uygulanabilir öneriler sunar.</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://caglahom.com/" title="homm life">doğal ve bitkisel ürünler</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://www.privnews.com" title="Siber güvenlik haberleri">Siber güvenlik haberleri hakkında her şey</a>
-      <a style={{ position: "absolute", top: "-9999px", left: "-9999px", visibility: "hidden" }} href="https://www.mirsanrack.com/" title="rack kabinet">Mirsan Rack, rack kabinet, IP korumalı kabinet, server kabinet ve network kabinet çözümleri sunmaktadır</a>
     </>
   );
 }
