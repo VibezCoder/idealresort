@@ -28,6 +28,10 @@ function Index() {
     { src: "/site-assets/93cd3f7520675cbe.jpg", alt: "The bar at Ideal Beach Resort" },
     { src: "/site-assets/ideal-resort-slide-4.jpg", alt: "A cultural performance at Ideal Beach Resort" },
   ];
+  const currentSlide = slides.find((_, index) => index === activeSlide) ?? {
+    src: "/site-assets/ideal-resort-slide-1.jpg",
+    alt: "Beachside chess at Ideal Beach Resort",
+  };
   const showSlide = (index: number) => setActiveSlide((index + slides.length) % slides.length);
 
   return (
@@ -92,7 +96,7 @@ function Index() {
               <div className="rsContainer h-full relative z-0 [-webkit-tap-highlight-color:rgba(0,0,0,0)]">
                 <div className="rsSlide h-full overflow-hidden absolute top-0" aria-live="polite">
                   <div className="rsContent h-full relative" style={{ visibility: "visible", opacity: "1", transition: "opacity 400ms ease-in-out" }}>
-                    <img className="rsImg ideal-slide-image" src={slides[activeSlide].src} alt={slides[activeSlide].alt} />
+                    <img className="rsImg ideal-slide-image" src={currentSlide.src} alt={currentSlide.alt} />
                     <div className="overlay h-full absolute top-0" />
                   </div>
                 </div>
