@@ -29,7 +29,7 @@ export function useSmoothScroll() {
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
     const onScroll = () => {
-      document.documentElement.dataset.scrolled = window.scrollY > 40 ? "true" : "false";
+      document.documentElement.dataset["scrolled"] = window.scrollY > 40 ? "true" : "false";
     };
     instance.on("scroll", onScroll);
     return () => {
@@ -67,12 +67,12 @@ export function usePageMotion(scope: RefObject<HTMLElement | null>) {
           start: "top 44px",
           end: "bottom 44px",
           onToggle: (self) => {
-            if (self.isActive) document.documentElement.dataset.ink = section.dataset.theme;
+            if (self.isActive) document.documentElement.dataset["ink"] = section.dataset["theme"];
           },
         });
       });
       const first = root.querySelector<HTMLElement>("[data-theme]");
-      if (first) document.documentElement.dataset.ink = first.dataset.theme;
+      if (first) document.documentElement.dataset["ink"] = first.dataset["theme"];
 
       if (reduced) return;
 
@@ -95,7 +95,7 @@ export function usePageMotion(scope: RefObject<HTMLElement | null>) {
           opacity: 0,
           duration: 1.1,
           ease: "power3.out",
-          delay: Number(el.dataset.reveal) || 0,
+          delay: Number(el.dataset["reveal"]) || 0,
           scrollTrigger: { trigger: el, start: "top 90%" },
         });
       });
@@ -114,7 +114,7 @@ export function usePageMotion(scope: RefObject<HTMLElement | null>) {
 
       // Image parallax drift (outer layer only; hover zoom lives on inner .zoom)
       root.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
-        const amount = Number(el.dataset.parallax) || 12;
+        const amount = Number(el.dataset["parallax"]) || 12;
         gsap.fromTo(
           el,
           { yPercent: -amount },
