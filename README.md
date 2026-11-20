@@ -1,24 +1,30 @@
 # idealResort
 
-Imported website: https://idealresort.com/
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/0035f315-6785-4f50-b9f3-d2c81ff1c7da).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+Editorial redesign concept of https://idealresort.com/ — a TanStack Start + React 19 + Tailwind CSS v4 site with a shared GSAP/Lenis scroll engine.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
 git clone <this-repository-url>
-cd <repository-name>
+cd idealresort
 npm i
 npm run dev
 ```
+
+## Checks
+
+```sh
+npm run lint
+npm test
+npm run build
+```
+
+## Structure
+
+- `src/lib/motion.ts` — the single scroll engine (Lenis driven by the GSAP ticker); pages opt in via `data-reveal`, `data-split`, `data-stagger`, `data-parallax`, `data-theme` attributes.
+- `src/lib/site.ts` — shared editorial content and asset URLs.
+- `src/components/site/` — shared header, footer and presentation.
+- `src/server.ts` + `src/start.ts` — SSR error wrapper and request middleware.
+- `.site-import/` — capture of the original site used as reference material.
