@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: idealresort
+    runtime: node
+    plan: free
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    startCommand: node .output/server/index.mjs
+    envVars:
+      - key: NODE_VERSION
+        value: 22.20.0
+      - key: NITRO_PRESET
+        value: node-server
