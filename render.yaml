@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: idealresort
+    name: ideal-resort
     runtime: node
     plan: free
     buildCommand: npm install --no-audit --no-fund && npm run build
